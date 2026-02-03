@@ -8,6 +8,8 @@ export interface User {
   email: string;
   name: string;
   role?: string;
+  token_limit: number;
+  tokens_used: number;
 }
 
 export interface LoginRequest {

@@ -50,6 +50,8 @@ class UserResponse(BaseModel):
     email: str
     name: str
     role: Optional[str] = None
+    token_limit: int = 25000
+    tokens_used: int = 0
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:

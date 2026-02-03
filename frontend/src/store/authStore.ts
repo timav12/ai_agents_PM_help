@@ -15,6 +15,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  showTokenLimitModal: boolean;
   
   // Actions
   login: (email: string, password: string) => Promise<void>;
@@ -22,6 +23,8 @@ interface AuthState {
   logout: () => void;
   checkAuth: () => Promise<void>;
   clearError: () => void;
+  updateTokens: (used: number, limit: number) => void;
+  setShowTokenLimitModal: (show: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -29,6 +32,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: !!getToken(),
   isLoading: false,
   error: null,
+  showTokenLimitModal: false,
   
   login: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
@@ -93,4 +97,17 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
   
   clearError: () => set({ error: null }),
+  
+  updateTokens: (used: number, limit: number) => {
+    set((state) => ({
+      user: state.user ? { ...state.user, tokens_used: used, token_limit: limit } : null,
+    }));
+    // Update localStorage
+    const user = getUser();
+    if (user) {
+      setUser({ ...user, tokens_used: used, token_limit: limit });
+    }
+  },
+  
+  setShowTokenLimitModal: (show: boolean) => set({ showTokenLimitModal: show }),
 }));

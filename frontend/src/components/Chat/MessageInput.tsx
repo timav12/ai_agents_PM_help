@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { chatApi } from '../../services/api';
 import { useProjectStore } from '../../store/projectStore';
+import { useAuthStore } from '../../store/authStore';
 import { Send, Loader2 } from 'lucide-react';
 
 export default function MessageInput() {
@@ -17,6 +18,8 @@ export default function MessageInput() {
     isLoading,
     setIsLoading,
   } = useProjectStore();
+  
+  const { updateTokens, setShowTokenLimitModal } = useAuthStore();
 
   // Auto-resize textarea
   useEffect(() => {
@@ -60,10 +63,21 @@ export default function MessageInput() {
           addArtifact(artifact);
         });
       }
+      
+      // Update user token usage
+      if (response.user_tokens) {
+        updateTokens(response.user_tokens.used, response.user_tokens.limit);
+      }
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error('Send message error:', error);
-      // Could add error toast here
+      
+      // Check for token limit error
+      const detail = error.response?.data?.detail;
+      if (detail?.error === 'token_limit_reached') {
+        updateTokens(detail.tokens_used, detail.token_limit);
+        setShowTokenLimitModal(true);
+      }
     },
     onSettled: () => {
       setIsLoading(false);

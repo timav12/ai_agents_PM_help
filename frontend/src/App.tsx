@@ -12,6 +12,7 @@ import RightPanel from './components/RightPanel/RightPanel';
 import ArtifactModal from './components/RightPanel/ArtifactModal';
 import AgentPrompts from './components/Settings/AgentPrompts';
 import LoginPage from './components/Auth/LoginPage';
+import TokenLimitModal from './components/Common/TokenLimitModal';
 import { Settings, FolderKanban, LogOut, User } from 'lucide-react';
 
 type ViewMode = 'projects' | 'settings';
@@ -21,7 +22,7 @@ initAuth();
 
 function App() {
   const { setProjects, currentProject, selectedArtifact } = useProjectStore();
-  const { isAuthenticated, user, logout, checkAuth } = useAuthStore();
+  const { isAuthenticated, user, logout, checkAuth, showTokenLimitModal, setShowTokenLimitModal } = useAuthStore();
   const [showNewProject, setShowNewProject] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('projects');
 
@@ -153,6 +154,14 @@ function App() {
         <NewProjectModal onClose={() => setShowNewProject(false)} />
       )}
       {selectedArtifact && <ArtifactModal />}
+      
+      {/* Token Limit Modal */}
+      <TokenLimitModal
+        isOpen={showTokenLimitModal}
+        onClose={() => setShowTokenLimitModal(false)}
+        tokensUsed={user?.tokens_used || 0}
+        tokenLimit={user?.token_limit || 25000}
+      />
     </Layout>
   );
 }

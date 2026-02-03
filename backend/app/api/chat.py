@@ -26,6 +26,21 @@ async def send_message(
 ):
     """Send a message and get AI agent response."""
     
+    # Check token limit
+    user_tokens_used = current_user.tokens_used or 0
+    user_token_limit = current_user.token_limit or 25000
+    
+    if user_tokens_used >= user_token_limit:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "error": "token_limit_reached",
+                "message": "You have reached your token limit. Please contact info@ntoolz.com to increase your limit.",
+                "tokens_used": user_tokens_used,
+                "token_limit": user_token_limit,
+            }
+        )
+    
     # Get project (must belong to current user)
     result = await db.execute(
         select(Project)
@@ -125,7 +140,7 @@ async def send_message(
     db.add(assistant_message)
     await db.flush()
     
-    # Save token usage
+    # Save token usage and update user's token counter
     usage = agent_result.get("usage")
     if usage:
         token_usage = TokenUsage(
@@ -137,7 +152,10 @@ async def send_message(
             total_tokens=usage.get("total_tokens", 0),
         )
         db.add(token_usage)
-        logger.info(f"Token usage: {usage['input_tokens']} in, {usage['output_tokens']} out")
+        
+        # Update user's total token usage
+        current_user.tokens_used = (current_user.tokens_used or 0) + usage.get("total_tokens", 0)
+        logger.info(f"Token usage: {usage['input_tokens']} in, {usage['output_tokens']} out. User total: {current_user.tokens_used}")
     
     # Update conversation's current agent
     conversation.agent_type = agent_result["current_agent"]
@@ -162,6 +180,10 @@ async def send_message(
         "communications": agent_result.get("communications", []),
         "artifacts": agent_result.get("artifacts", []),
         "usage": agent_result.get("usage"),
+        "user_tokens": {
+            "used": current_user.tokens_used or 0,
+            "limit": current_user.token_limit or 25000,
+        },
     }
 
 

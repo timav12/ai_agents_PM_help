@@ -53,6 +53,8 @@ async def register(
         email=user.email,
         name=user.name,
         role=user.role,
+        token_limit=user.token_limit or 25000,
+        tokens_used=user.tokens_used or 0,
     )
 
 
@@ -98,6 +100,8 @@ async def get_me(current_user: User = Depends(get_current_user)):
         email=current_user.email,
         name=current_user.name,
         role=current_user.role,
+        token_limit=current_user.token_limit or 25000,
+        tokens_used=current_user.tokens_used or 0,
     )
 
 

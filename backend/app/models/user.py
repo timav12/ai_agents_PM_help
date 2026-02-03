@@ -17,6 +17,10 @@ class User(Base):
     role = Column(String, default="founder")
     is_active = Column(Boolean, default=True)
     
+    # Token limits
+    token_limit = Column(Integer, default=25000)
+    tokens_used = Column(Integer, default=0)
+    
     # Default priorities (learned over time)
     default_speed_priority = Column(Integer, default=5)
     default_quality_priority = Column(Integer, default=5)
