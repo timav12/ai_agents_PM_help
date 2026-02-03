@@ -70,6 +70,11 @@ export interface ChatResponse {
   }>;
   communications?: AgentCommunication[];
   artifacts?: Artifact[];
+  usage?: TokenUsage;
+  user_tokens?: {
+    used: number;
+    limit: number;
+  };
 }
 
 // Agent Communication types
