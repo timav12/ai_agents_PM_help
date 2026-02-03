@@ -39,7 +39,7 @@ const messageTypeColors: Record<string, string> = {
 };
 
 export default function AgentCommunications() {
-  const { currentProject, communications, setCommunications, addCommunications } = useProjectStore();
+  const { currentProject, communications, setCommunications } = useProjectStore();
 
   // Fetch communications
   const { data: fetchedComms } = useQuery({

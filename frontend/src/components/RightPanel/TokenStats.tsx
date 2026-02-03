@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { statsApi } from '../../services/api';
 import { useProjectStore } from '../../store/projectStore';
-import { Coins, TrendingUp, ArrowDownCircle, ArrowUpCircle, Lightbulb, FileSearch, Bot, Code } from 'lucide-react';
+import { Coins, ArrowDownCircle, ArrowUpCircle, Lightbulb, FileSearch, Bot, Code } from 'lucide-react';
 
 const agentIcons: Record<string, typeof Bot> = {
   business_agent: Lightbulb,
