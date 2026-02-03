@@ -157,4 +157,32 @@ export const agentsApi = {
   },
 };
 
+// Admin API
+export const adminApi = {
+  getUsers: async () => {
+    const { data } = await api.get('/admin/users');
+    return data;
+  },
+  
+  getStats: async () => {
+    const { data } = await api.get('/admin/stats');
+    return data;
+  },
+  
+  updateUserLimit: async (userId: string, tokenLimit: number) => {
+    const { data } = await api.patch(`/admin/users/${userId}/limit`, { token_limit: tokenLimit });
+    return data;
+  },
+  
+  updateUserStatus: async (userId: string, isActive: boolean) => {
+    const { data } = await api.patch(`/admin/users/${userId}/status`, { is_active: isActive });
+    return data;
+  },
+  
+  resetUserTokens: async (userId: string) => {
+    const { data } = await api.patch(`/admin/users/${userId}/reset-tokens`);
+    return data;
+  },
+};
+
 export default api;

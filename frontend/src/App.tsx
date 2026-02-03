@@ -13,9 +13,10 @@ import ArtifactModal from './components/RightPanel/ArtifactModal';
 import AgentPrompts from './components/Settings/AgentPrompts';
 import LoginPage from './components/Auth/LoginPage';
 import TokenLimitModal from './components/Common/TokenLimitModal';
-import { Settings, FolderKanban, LogOut, User } from 'lucide-react';
+import AdminPanel from './components/Admin/AdminPanel';
+import { Settings, FolderKanban, LogOut, User, Shield } from 'lucide-react';
 
-type ViewMode = 'projects' | 'settings';
+type ViewMode = 'projects' | 'settings' | 'admin';
 
 // Initialize auth on app load
 initAuth();
@@ -55,29 +56,44 @@ function App() {
         {/* Left sidebar */}
         <div className="w-64 border-r border-gray-200 bg-gray-50 flex flex-col">
           {/* Navigation tabs */}
-          <div className="p-2 border-b border-gray-200 flex gap-1">
-            <button
-              onClick={() => setViewMode('projects')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'projects'
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              <FolderKanban className="w-4 h-4" />
-              Projects
-            </button>
-            <button
-              onClick={() => setViewMode('settings')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'settings'
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              <Settings className="w-4 h-4" />
-              Agents
-            </button>
+          <div className="p-2 border-b border-gray-200 flex flex-col gap-1">
+            <div className="flex gap-1">
+              <button
+                onClick={() => setViewMode('projects')}
+                className={`flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg text-xs font-medium transition-colors ${
+                  viewMode === 'projects'
+                    ? 'bg-primary-100 text-primary-700'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <FolderKanban className="w-4 h-4" />
+                Projects
+              </button>
+              <button
+                onClick={() => setViewMode('settings')}
+                className={`flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg text-xs font-medium transition-colors ${
+                  viewMode === 'settings'
+                    ? 'bg-primary-100 text-primary-700'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <Settings className="w-4 h-4" />
+                Agents
+              </button>
+            </div>
+            {user?.role === 'admin' && (
+              <button
+                onClick={() => setViewMode('admin')}
+                className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${
+                  viewMode === 'admin'
+                    ? 'bg-red-100 text-red-700'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <Shield className="w-4 h-4" />
+                Admin
+              </button>
+            )}
           </div>
           
           {viewMode === 'projects' && (
@@ -125,7 +141,7 @@ function App() {
         </div>
 
         {/* Main content area */}
-        {viewMode === 'projects' ? (
+        {viewMode === 'projects' && (
           <>
             <div className="flex-1 flex flex-col min-w-0">
               {currentProject ? (
@@ -144,9 +160,9 @@ function App() {
             {/* Right panel with communications and artifacts */}
             {currentProject && <RightPanel />}
           </>
-        ) : (
-          <AgentPrompts />
         )}
+        {viewMode === 'settings' && <AgentPrompts />}
+        {viewMode === 'admin' && <AdminPanel />}
       </div>
 
       {/* Modals */}

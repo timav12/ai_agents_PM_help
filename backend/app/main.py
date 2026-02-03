@@ -7,7 +7,7 @@ import sys
 
 from app.config import settings
 from app.database import init_db
-from app.api import projects_router, chat_router, artifacts_router, communications_router, stats_router, agents_router, auth_router
+from app.api import projects_router, chat_router, artifacts_router, communications_router, stats_router, agents_router, auth_router, admin_router
 
 # Configure loguru
 logger.remove()
@@ -69,6 +69,7 @@ app.include_router(artifacts_router, prefix="/api")
 app.include_router(communications_router, prefix="/api")
 app.include_router(stats_router, prefix="/api")
 app.include_router(agents_router, prefix="/api")
+app.include_router(admin_router, prefix="/api")
 
 
 @app.get("/")
