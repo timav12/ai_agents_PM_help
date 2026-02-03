@@ -147,12 +147,78 @@ function App() {
               {currentProject ? (
                 <ChatWindow />
               ) : (
-                <div className="flex-1 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <h2 className="text-xl font-semibold mb-2">Welcome to AI Agents MVP</h2>
-                    <p className="text-gray-400">
-                      Create a new project or select an existing one to start chatting with AI agents
-                    </p>
+                <div className="flex-1 overflow-y-auto p-8">
+                  <div className="max-w-2xl mx-auto space-y-8">
+                    {/* English version */}
+                    <div className="bg-white rounded-xl border p-6 shadow-sm">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-4">AI Product Development Assistant</h2>
+                      <p className="text-gray-600 mb-4">
+                        A platform with AI agents to help you develop products. The team of agents will assist you with:
+                      </p>
+                      
+                      <div className="mb-4">
+                        <h3 className="font-semibold text-gray-800 mb-2">What agents can do:</h3>
+                        <ul className="space-y-1 text-sm text-gray-600">
+                          <li>🎯 <strong>Project Manager</strong> — coordinates work, asks clarifying questions, ensures quality</li>
+                          <li>💼 <strong>Business CPO</strong> — market analysis, competitors, unit economics, business model</li>
+                          <li>🔍 <strong>Discovery Expert</strong> — user research, Jobs-to-be-Done, customer development</li>
+                          <li>📋 <strong>Delivery Expert</strong> — PRD, user stories, prioritization, MVP scope</li>
+                          <li>🛠 <strong>Tech Lead</strong> — architecture, tech stack, complexity estimation</li>
+                        </ul>
+                      </div>
+                      
+                      <div className="mb-4">
+                        <h3 className="font-semibold text-gray-800 mb-2">How to use:</h3>
+                        <ol className="space-y-1 text-sm text-gray-600 list-decimal list-inside">
+                          <li>Create a project and describe your idea</li>
+                          <li>Set priorities (speed / quality / cost)</li>
+                          <li>Chat with agents — they will ask questions and generate documents</li>
+                          <li>View artifacts and agent discussions in the right panel</li>
+                        </ol>
+                      </div>
+                      
+                      <div className="text-sm text-gray-500 border-t pt-3">
+                        <strong>Limits:</strong> 25,000 tokens per user. Contact <a href="mailto:info@ntoolz.com" className="text-primary-600 hover:underline">info@ntoolz.com</a> to increase.
+                      </div>
+                    </div>
+
+                    {/* Russian version */}
+                    <div className="bg-gray-50 rounded-xl border p-6">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-4">AI-ассистент разработки продуктов</h2>
+                      <p className="text-gray-600 mb-4">
+                        Платформа с AI-агентами для помощи в разработке продуктов. Команда агентов поможет вам:
+                      </p>
+                      
+                      <div className="mb-4">
+                        <h3 className="font-semibold text-gray-800 mb-2">Что умеют агенты:</h3>
+                        <ul className="space-y-1 text-sm text-gray-600">
+                          <li>🎯 <strong>Project Manager</strong> — координирует работу, задаёт уточняющие вопросы, контролирует качество</li>
+                          <li>💼 <strong>Business CPO</strong> — анализ рынка, конкурентов, unit-экономика, бизнес-модель</li>
+                          <li>🔍 <strong>Discovery Expert</strong> — исследование пользователей, Jobs-to-be-Done, customer development</li>
+                          <li>📋 <strong>Delivery Expert</strong> — PRD, user stories, приоритизация, MVP scope</li>
+                          <li>🛠 <strong>Tech Lead</strong> — архитектура, tech stack, оценка сложности</li>
+                        </ul>
+                      </div>
+                      
+                      <div className="mb-4">
+                        <h3 className="font-semibold text-gray-800 mb-2">Как работать:</h3>
+                        <ol className="space-y-1 text-sm text-gray-600 list-decimal list-inside">
+                          <li>Создайте проект и опишите вашу идею</li>
+                          <li>Укажите приоритеты (скорость / качество / стоимость)</li>
+                          <li>Общайтесь в чате — агенты будут задавать вопросы и генерировать документы</li>
+                          <li>Смотрите артефакты и обсуждения агентов в правой панели</li>
+                        </ol>
+                      </div>
+                      
+                      <div className="text-sm text-gray-500 border-t pt-3">
+                        <strong>Ограничения:</strong> 25 000 токенов на пользователя. Для увеличения: <a href="mailto:info@ntoolz.com" className="text-primary-600 hover:underline">info@ntoolz.com</a>
+                      </div>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="text-center text-gray-500">
+                      <p>👈 Create a new project to get started</p>
+                    </div>
                   </div>
                 </div>
               )}
