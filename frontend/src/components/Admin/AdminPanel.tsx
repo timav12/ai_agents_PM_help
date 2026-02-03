@@ -26,12 +26,6 @@ interface UserStats {
   created_at: string;
 }
 
-interface PlatformStats {
-  total_users: number;
-  total_projects: number;
-  total_tokens_used: number;
-}
-
 function formatNumber(num: number): string {
   if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
   if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
